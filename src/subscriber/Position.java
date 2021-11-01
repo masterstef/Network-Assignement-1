@@ -1,5 +1,6 @@
 package subscriber;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public class Position {
@@ -18,12 +19,12 @@ public class Position {
     }
 
     private int getColumnValue(String column) throws Exception {
-        if(!(Integer.parseInt(column) >= 0 && Integer.parseInt(column) < 10)) throw new Exception("wrong column index : " + column);
+        if(!(Integer.parseInt(column) >= 0 && Integer.parseInt(column) <= 10)) throw new Exception("wrong column index : " + column);
         return Integer.parseInt(column) - 1;
     }
 
     private int getRowValue(String row) throws Exception {
-        switch (row){
+        switch (row.toUpperCase(Locale.ROOT)){
             case "A" : return 0;
             case "B" : return 1;
             case "C" : return 2;

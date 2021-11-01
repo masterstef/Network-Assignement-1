@@ -13,6 +13,7 @@ public class SubscriberManager {
 
     private MessageBuilder messageBuilder = new MessageBuilder();
     private Grid grid = new Grid();
+    private boolean continueTheGame = true;
 
     public void start(){
         try (Socket s = new Socket("localhost",2655)){
@@ -23,6 +24,7 @@ public class SubscriberManager {
             subscribePosition(s);
             while (true){
                 read(s);
+                if(!continueTheGame) break;
                 grid.printGrid();
                 pushGuess(takeAGuess(),s);
                 grid.resetSensors();
@@ -60,7 +62,8 @@ public class SubscriberManager {
         try {
             byte[] msg = new byte[64];
             s.getInputStream().read(msg);
-            for (int i = 0; i < msg.length ; i += msg[i+2]+3){
+            int i = 0;
+            while(i < msg.length){
                 if(i+2 > msg.length || msg[i+2] == 0) {
                     s.getInputStream().read(msg);
                     i = 0;
@@ -71,6 +74,7 @@ public class SubscriberManager {
                 Message currentmessage = new Message(currentByteMessage);
                 dispatch(currentmessage,s);
                 System.out.println(currentmessage.getPlayload());
+                i += msg[i+2]+3;
             }
         }catch (SocketTimeoutException e){
 
@@ -101,8 +105,8 @@ public class SubscriberManager {
                 break;
             case "victory" :
                 System.out.println("/!\\ YOU GOT IT /!\\");
-                grid.resetSensors();
                 ack(s);
+                continueTheGame = false;
                 break;
             default : throw new Exception("Message Topic not handled");
         }

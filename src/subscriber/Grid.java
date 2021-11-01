@@ -20,7 +20,7 @@ public class Grid {
     }
 
     public void printGrid(){
-
+        System.out.println(" The monster is situated somewhere on the tiles marked by a cross");
         System.out.println("     1  2  3  4  5  6  7  8  9 10");
         System.out.println("    -- -- -- -- -- -- -- -- -- --");
         for (int i = 0 ; i< 10 ; i++){
