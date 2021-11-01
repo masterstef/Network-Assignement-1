@@ -18,7 +18,7 @@ public class Position {
     }
 
     private int getColumnValue(String column) throws Exception {
-        if(!(Integer.parseInt(column) >= 0 && Integer.parseInt(column) < 10)) throw new Exception("wrong column index");
+        if(!(Integer.parseInt(column) >= 0 && Integer.parseInt(column) < 10)) throw new Exception("wrong column index : " + column);
         return Integer.parseInt(column) - 1;
     }
 
@@ -34,7 +34,7 @@ public class Position {
             case "H" : return 7;
             case "I" : return 8;
             case "J" : return 9;
-            default: throw new Exception("wrong row index");
+            default: throw new Exception("wrong row index :" + row);
         }
     }
 
@@ -57,5 +57,10 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(row, column);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s%d",Constants.ROW_INDEX[row],(column + 1));
     }
 }
