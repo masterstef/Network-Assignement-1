@@ -1,12 +1,14 @@
-package subscriber;
-
 import java.util.Locale;
 import java.util.Objects;
 
+/**
+ * Represent a Position in the Grid
+ */
 public class Position {
 
     private int row;
     private int column;
+    private final String[] ROW_INDEX = new String[]{"A","B","C","D","E","F","G","H","I","J"};
 
     public Position(int row, int column) {
         this.row = row;
@@ -18,11 +20,21 @@ public class Position {
         this.column = getColumnValue(column);
     }
 
+    /**
+     * @param column index of column from 1 to 10
+     * @return index of column from 0 to 9
+     * @throws PositionException if given column position is not in the Grid
+     */
     private int getColumnValue(String column) throws PositionException {
         if(!(Integer.parseInt(column) >= 0 && Integer.parseInt(column) <= 10)) throw new PositionException("wrong column index : " + column);
         return Integer.parseInt(column) - 1;
     }
 
+    /**
+     * @param row index of row from A to J
+     * @return index of row from 0 to 9
+     * @throws PositionException if given row position is not in the Grid
+     */
     private int getRowValue(String row) throws PositionException {
         switch (row.toUpperCase(Locale.ROOT)){
             case "A" : return 0;
@@ -62,6 +74,6 @@ public class Position {
 
     @Override
     public String toString() {
-        return String.format("%s%d",Constants.ROW_INDEX[row],(column + 1));
+        return String.format("%s%d",ROW_INDEX[row],(column + 1));
     }
 }

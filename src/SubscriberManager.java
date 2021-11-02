@@ -1,15 +1,7 @@
-package subscriber;
-
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-
-import static subscriber.Constants.*;
 
 public class SubscriberManager {
 
@@ -28,23 +20,23 @@ public class SubscriberManager {
             subscribeVictory(s);
             subscribePosition(s);
             read(s);
-            grid.printGrid();
+            grid.print();
             pushGuess(takeAGuess(),s);
             grid.resetSensors();
             while (true){
                 read(s);
                 if(!continueTheGame) break;
                 System.out.println("Whoops, you missed !");
-                grid.printGrid();
+                grid.print();
                 pushGuess(takeAGuess(),s);
                 grid.resetSensors();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } catch (MessageException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } catch (PositionException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -64,7 +56,7 @@ public class SubscriberManager {
                     System.out.println("Index not in Sensors area try again");
                     position = null;
                 }
-            } catch (Exception e) {
+            } catch (PositionException e) {
                 System.out.println("Not a correct position try again");
                 position = null;
             }
@@ -104,9 +96,9 @@ public class SubscriberManager {
      */
     private void dispatch(Message currentmessage, Socket s) throws MessageException, PositionException, IOException {
         switch (currentmessage.getType()){
-            case SUBSCRIBE_TYPE : handleSubscribeMessage(currentmessage,s); break;
-            case PUBLISH_TYPE : handlePublishMessage(currentmessage,s); break;
-            case ACK_TYPE : handleAckMessage(currentmessage); break;
+            case 0 : handleSubscribeMessage(currentmessage,s); break;
+            case 1 : handlePublishMessage(currentmessage,s); break;
+            case 2 : handleAckMessage(currentmessage); break;
             default: throw new MessageException("Message Type not handled");
         }
     }

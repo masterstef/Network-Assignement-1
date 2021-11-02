@@ -1,5 +1,3 @@
-package subscriber;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +17,13 @@ public class Sensor {
         this.area = computeArea(new Position(sensorInfos[0].substring(0,1),sensorInfos[0].substring(1)),weight);
     }
 
-    public Set<Position> computeArea(Position sensorPosition,int weight) {
+    /**
+     * Compute the Sensor area from a position with a certain weight
+     * @param sensorPosition The inital position of the Sensor
+     * @param weight The weight of the Sensor
+     * @return a Set with all the positions managed by Sensor
+     */
+    private Set<Position> computeArea(Position sensorPosition,int weight) {
         area = new HashSet<Position>();
         for (int i = -weight ; i <= weight ; i++){
             for (int j = -weight ; j <= weight ; j++){
@@ -31,10 +35,20 @@ public class Sensor {
         return area;
     }
 
+    /**
+     * @param rowIndex
+     * @param columnIndex
+     * @return true if the givens index are in the Grid
+     */
     private boolean checkIndex(int rowIndex, int columnIndex) {
         return rowIndex >= 0 && rowIndex < 10 && columnIndex >= 0 && columnIndex < 10 ;
     }
 
+    /**
+     * Check if Sensor area constain the given Position
+     * @param position given position
+     * @return true if area contain position
+     */
     public Boolean hasPosition(Position position) {
         return area.contains(position);
     }
