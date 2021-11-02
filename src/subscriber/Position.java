@@ -13,17 +13,17 @@ public class Position {
         this.column = column;
     }
 
-    public Position(String row, String column) throws Exception {
+    public Position(String row, String column) throws PositionException {
         this.row = getRowValue(row);
         this.column = getColumnValue(column);
     }
 
-    private int getColumnValue(String column) throws Exception {
-        if(!(Integer.parseInt(column) >= 0 && Integer.parseInt(column) <= 10)) throw new Exception("wrong column index : " + column);
+    private int getColumnValue(String column) throws PositionException {
+        if(!(Integer.parseInt(column) >= 0 && Integer.parseInt(column) <= 10)) throw new PositionException("wrong column index : " + column);
         return Integer.parseInt(column) - 1;
     }
 
-    private int getRowValue(String row) throws Exception {
+    private int getRowValue(String row) throws PositionException {
         switch (row.toUpperCase(Locale.ROOT)){
             case "A" : return 0;
             case "B" : return 1;
@@ -35,7 +35,7 @@ public class Position {
             case "H" : return 7;
             case "I" : return 8;
             case "J" : return 9;
-            default: throw new Exception("wrong row index :" + row);
+            default: throw new PositionException("wrong row index :" + row);
         }
     }
 
